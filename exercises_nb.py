@@ -26,13 +26,9 @@ display(df)
 
 # COMMAND ----------
 
-
-
-# COMMAND ----------
-
 containerName = "contdavid"
 storageAccountName = "storagedbdavid"
-sas = "sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-03-15T00:17:39Z&st=2024-03-14T16:17:39Z&spr=https&sig=pwpUIx4xe0T%2By%2BQKdedm4xDwK1ayPxfz%2FwLV3hu%2FkZc%3D"
+sas = "sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-04-05T08:47:26Z&st=2024-03-22T00:47:26Z&spr=https&sig=R7OOnI26HTnVIIC%2FP5aKA47yPL1nxafeP0A92Nc919A%3D" #last 14 days
 
 url = "wasbs://" + containerName + "@" + storageAccountName + ".blob.core.windows.net/"
 config = "fs.azure.sas." + containerName + "." + storageAccountName + ".blob.core.windows.net"
@@ -151,7 +147,7 @@ displayHTML(profile.html)
 
 from delta.tables import *
 
-df.write.format("delta").saveAsTable("default.my_delta_table")
+df.write.format("delta").mode("overwrite").saveAsTable("default.my_delta_table")
 
 # COMMAND ----------
 
@@ -176,3 +172,31 @@ display(df_delta.history())
 # MAGIC %sql
 # MAGIC SELECT *
 # MAGIC FROM my_delta_table
+
+# COMMAND ----------
+
+# DBTITLE 0,Catalog
+# MAGIC %sql
+# MAGIC USE default;
+
+# COMMAND ----------
+
+# DBTITLE 1,Catalog
+# MAGIC %sql
+# MAGIC SHOW CATALOGS --this shows available catalogs, hive metastore, main, samples, etc
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC CREATE CATALOG IF NOT EXISTS quickstart_catalog;
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC USE CATALOG quickstart_catalog;
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC CREATE SCHEMA IF NOT EXISTS quickstart_schema;
+# MAGIC
